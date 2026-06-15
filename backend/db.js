@@ -20,3 +20,12 @@ const db = new sqlite3.Database(dbPath, (err) => {
 });
 
 export default db;
+
+export const queryDB = (query, params = []) => {
+  return new Promise((resolve, reject) => {
+    db.all(query, params, (err, rows) => {
+      if (err) reject(err);
+      else resolve(rows);
+    });
+  });
+};

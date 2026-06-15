@@ -1,11 +1,12 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+dotenv.config();
 
 import productRoutes from "./routes/productRoutes.js";
 import summaryRoutes from "./routes/summaryRoutes.js";
-
-dotenv.config();
+import trendRoutes from "./routes/trendRoutes.js";
+import chatRoutes from "./routes/chatRoutes.js";
 
 const app = express();
 
@@ -14,6 +15,8 @@ app.use(express.json());
 
 app.use("/api/products", productRoutes);
 app.use("/api/summary", summaryRoutes);
+app.use("/api/trends", trendRoutes);
+app.use("/api/chat", chatRoutes);
 
 const PORT = process.env.PORT || 5000;
 

@@ -1,6 +1,6 @@
 import db from "../db.js";
 
-export const getProducts = async (req, res) => {
+export const getProducts = (req, res) => {
   const query = `
     SELECT 
         product_name,
