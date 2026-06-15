@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
+import Chat from "./pages/Chat";
 
 function App() {
   return (
@@ -10,11 +11,15 @@ function App() {
             <Link to="/" className="font-semibold">
               Dashboard
             </Link>
+            <Link to="/chat" className="font-semibold">
+              Chat
+            </Link>
           </div>
         </nav>
 
         <Routes>
           <Route path="/" element={<Dashboard />} />
+          <Route path="/chat" element={<Chat />} />
         </Routes>
       </div>
     </BrowserRouter>
