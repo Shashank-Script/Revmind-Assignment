@@ -83,9 +83,7 @@ export const chat = async (req, res) => {
     }
 
     // Question 5
-    else if (
-      lowerQuestion.includes("west region")
-    ) {
+    else if (lowerQuestion.includes("west region")) {
       sql = `
         SELECT
           product_name,
@@ -96,13 +94,37 @@ export const chat = async (req, res) => {
         ORDER BY revenue DESC
         LIMIT 1
       `;
-    }
+    } else {
+      const summaryData = await queryDB(`
+      SELECT
+        region,
+        category,
+        channel,
+        product_name,
+        SUM(net_revenue_usd) AS revenue
+      FROM sales
+      GROUP BY region, category, channel, product_name
+      LIMIT 100
+  `);
 
-    else {
+      const prompt = `
+  You are a business analyst for NovaBite Consumer Goods.
+
+  Available data sample:
+  ${JSON.stringify(summaryData)}
+
+  User Question:
+  ${question}
+
+  If the answer cannot be determined from the data,
+  clearly say so.
+  `;
+
+      const result = await model.generateContent(prompt);
+
       return res.json({
         success: true,
-        answer:
-          "Currently I support business analytics questions related to revenue, profit margin, sales reps, channels, and products.",
+        answer: result.response.text(),
       });
     }
 
@@ -129,7 +151,6 @@ export const chat = async (req, res) => {
       answer,
       data,
     });
-
   } catch (error) {
     console.error(error);
 
